@@ -1,0 +1,8 @@
+services:
+  jwt.authentication.jwt:
+    class: Drupal\jwt\Authentication\Provider\JWTAuth
+    arguments: ['@config.factory', '@user.auth', '@flood', '@jwt.firebase.php-jwt', '@event_dispatcher', '@key.repository' ]
+    tags:
+      - { name: authentication_provider, provider_id: 'jwt_auth', priority: 100 }
+  jwt.firebase.php-jwt:
+    class: Firebase\JWT\JWT

@@ -1,0 +1,16 @@
+{
+  "name": "drupal/jwt",
+  "type": "drupal-module",
+  "description": "Provides a JSON Web Token authentication provider",
+  "keywords": ["Drupal"],
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/jwt",
+  "minimum-stability": "dev",
+  "support": {
+    "issues": "http://drupal.org/project/issues/jwt",
+    "source": "http://cgit.drupalcode.org/jwt"
+  },
+  "require": {
+    "firebase/php-jwt": "3"
+  }
+}

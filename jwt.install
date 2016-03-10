@@ -1,0 +1,18 @@
+<?php
+
+/**
+ *  * Implements hook_requirements().
+ *   */
+function address_requirements($phase) {
+  $requirements = [];
+  if ($phase == 'install') {
+    if (!class_exists('\Firebas\JWT\JWT')) {
+      $requirements['jwt_library'] = [
+        'description' => t('JWT Authentication requires the firebase/php-jwt library.'),
+        'severity' => REQUIREMENT_ERROR,
+      ];
+    }
+  }
+
+  return $requirements;
+}

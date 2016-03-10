@@ -1,0 +1,8 @@
+name: JWT Authentication
+type: module
+description: Provides a JSON Web Token authentication provider
+core: 8.x
+package: Web services
+
+dependencies:
+  - key

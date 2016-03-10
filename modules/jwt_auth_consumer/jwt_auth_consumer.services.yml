@@ -1,0 +1,7 @@
+services:
+  jwt_auth_consumer.subscriber:
+    class: Drupal\jwt_auth_consumer\EventSubscriber\JWTAuthConsumerSubscriber
+    arguments: [ '@entity.manager' ]
+    tags:
+      - { name: event_subscriber }
+
