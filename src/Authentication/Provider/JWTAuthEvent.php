@@ -24,7 +24,7 @@ class JWTAuthEvent extends Event {
    *
    * @var object
    */
-  private $payload;
+  protected $payload;
 
   /**
    * Variable tracking whether a token has been marked invalid.

@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains jwt_auth_issuer.module..
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function jwt_auth_issuer_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the jwt_auth_issuer module.
+    case 'help.page.jwt_auth_issuer':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Provides an endpoint which will issue JWTs.') . '</p>';
+      return $output;
+
+    default:
+  }
+}

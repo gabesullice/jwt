@@ -96,9 +96,9 @@ class JWTAuth implements AuthenticationProviderInterface {
    * @param \Firebase\JWT\JWT $php_jwt
    *   The jwt validator service.
    * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $event_dispatcher
-   *   The event dispatcher interface.
+   *   The event dispatcher service.
    * @param \Drupal\key\KeyRepositoryInterface $keyRepo
-   *   The event dispatcher interface.
+   *   The key module repository service.
    */
   public function __construct(ConfigFactoryInterface $config_factory, UserAuthInterface $user_auth, FloodInterface $flood, JWT $php_jwt, EventDispatcherInterface $event_dispatcher, KeyRepositoryInterface $key_repo) {
     $this->configFactory = $config_factory;

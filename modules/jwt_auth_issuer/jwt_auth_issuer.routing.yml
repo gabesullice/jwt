@@ -1,0 +1,9 @@
+jwt_auth_issuer.jwt_auth_issuer_controller_generateToken:
+  path: 'jwt/token'
+  defaults:
+    _controller: '\Drupal\jwt_auth_issuer\Controller\JWTAuthIssuerController::tokenResponse'
+    _title: 'JWT Auth Issuer'
+  options:
+    _auth: [ 'jwt_auth', 'basic_auth', 'cookie' ]
+  requirements:
+    _permission: 'access content'

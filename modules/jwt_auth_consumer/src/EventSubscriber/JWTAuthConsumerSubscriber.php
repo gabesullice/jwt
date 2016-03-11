@@ -60,8 +60,8 @@ class JWTAuthConsumerSubscriber implements EventSubscriberInterface {
    */
   public function validate(JWTAuthEvent $event) {
     $token = $event->getToken();
-    if (!isset($token->uid)) {
-      $event->invalidate("No uid was provided in the JWT payload.");
+    if (!isset($token->drupal->uid)) {
+      $event->invalidate("No Drupal uid was provided in the JWT payload.");
     }
   }
 
@@ -73,8 +73,8 @@ class JWTAuthConsumerSubscriber implements EventSubscriberInterface {
    */
   public function loadUser(JWTAuthEvent $event) {
     $token = $event->getToken();
-    if (!$user = $this->entityManager->getStorage('user')->load($token->uid)) {
-      // @todo: log error recording that no user by this uid was found.
+    if (!$user = $this->entityManager->getStorage('user')->load($token->drupal->uid)) {
+      // @todo: log notice recording that no user by this uid was found.
       return;
     }
     $event->setUser($user);
