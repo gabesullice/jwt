@@ -1,0 +1,7 @@
+jwt.jwt_config_form:
+  title: 'JWT Authentication'
+  route_name: jwt.jwt_config_form
+  description: 'Configures the JWT Authentication module'
+  parent: system.admin_config_system
+  weight: 99
+

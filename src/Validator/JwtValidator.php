@@ -12,6 +12,8 @@ use Drupal\jwt\Transcoder\JwtDecodeException;
 
 use Drupal\key\KeyRepositoryInterface;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
+
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -51,16 +53,19 @@ class JwtValidator implements JwtValidatorInterface {
   /**
    * Constructor.
    */
-  public function __construct(RequestStack $request_stack, JwtTranscoderInterface $jwt_transcoder, KeyRepositoryInterface $key_repo) {
+  public function __construct(RequestStack $request_stack, JwtTranscoderInterface $jwt_transcoder, KeyRepositoryInterface $key_repo, ConfigFactoryInterface $config_factory) {
     $this->requestStack = $request_stack;
     $this->jwtTranscoder = $jwt_transcoder;
     $this->keyRepo = $key_repo;
 
-    $key = $key_repo->getKey('jwt_key');
+    $key_id = $config_factory->get('jwt.config')->get('key_id');
+    if (isset($key_id)) {
+      $key = $key_repo->getKey('jwt_key');
 
-    if (!is_null($key)) {
-      $secret = $key->getKeyValue();
-      $this->jwtTranscoder->setSecret($secret);
+      if (!is_null($key)) {
+        $secret = $key->getKeyValue();
+        $this->jwtTranscoder->setSecret($secret);
+      }
     }
   }
 

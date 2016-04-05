@@ -1,0 +1,11 @@
+
+jwt.jwt_config_form:
+  path: '/admin/config/jwt/config'
+  defaults:
+    _form: '\Drupal\jwt\Form\ConfigForm'
+    _title: 'JWT Configuration'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+
