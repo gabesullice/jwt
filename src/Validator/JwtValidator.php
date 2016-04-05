@@ -56,8 +56,12 @@ class JwtValidator implements JwtValidatorInterface {
     $this->jwtTranscoder = $jwt_transcoder;
     $this->keyRepo = $key_repo;
 
-    $secret = $key_repo->getKey('jwt_key')->getKeyValue();
-    $this->jwtTranscoder->setSecret($secret);
+    $key = $key_repo->getKey('jwt_key');
+
+    if (!is_null($key)) {
+      $secret = $key->getKeyValue();
+      $this->jwtTranscoder->setSecret($secret);
+    }
   }
 
   /**
