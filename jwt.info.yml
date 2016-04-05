@@ -1,8 +1,10 @@
 name: JWT Authentication
 type: module
-description: Provides a JSON Web Token authentication provider
+description: Provides functionality for issuing, validating, and authenticating with JSON Web Tokens.
 core: 8.x
 package: Web services
+
+configure: jwt.jwt_config_form
 
 dependencies:
   - key
