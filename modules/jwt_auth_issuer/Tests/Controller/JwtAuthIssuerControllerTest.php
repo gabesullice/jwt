@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\jwt_auth_issuer\Tests\JWTAuthIssuerController.
+ * Contains \Drupal\jwt_auth_issuer\Tests\JwtAuthIssuerController.
  */
 
 namespace Drupal\jwt_auth_issuer\Tests;
@@ -13,7 +13,7 @@ use Firebase\JWT\JWT;
 /**
  * Provides automated tests for the jwt_auth_issuer module.
  */
-class JWTAuthIssuerControllerTest extends WebTestBase {
+class JwtAuthIssuerControllerTest extends WebTestBase {
 
   /**
    * Firebase\JWT\JWT definition.
@@ -26,8 +26,8 @@ class JWTAuthIssuerControllerTest extends WebTestBase {
    */
   public static function getInfo() {
     return array(
-      'name' => "jwt_auth_issuer JWTAuthIssuerController's controller functionality",
-      'description' => 'Test Unit for module jwt_auth_issuer and controller JWTAuthIssuerController.',
+      'name' => "jwt_auth_issuer JwtAuthIssuerController's controller functionality",
+      'description' => 'Test Unit for module jwt_auth_issuer and controller JwtAuthIssuerController.',
       'group' => 'Other',
     );
   }
@@ -42,7 +42,7 @@ class JWTAuthIssuerControllerTest extends WebTestBase {
   /**
    * Tests jwt_auth_issuer functionality.
    */
-  public function testJWTAuthIssuerController() {
+  public function testJwtAuthIssuerController() {
     // Check that the basic functions of module jwt_auth_issuer.
     $this->assertEquals(TRUE, TRUE, 'Test Unit Generated via App Console.');
   }

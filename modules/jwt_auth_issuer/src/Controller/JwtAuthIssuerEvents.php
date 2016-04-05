@@ -2,12 +2,12 @@
 
 /**
  * @file
- * Contains \Drupal\jwt_auth_issuer\Controller\JWTAuthIssuerEvents.
+ * Contains \Drupal\jwt_auth_issuer\Controller\JwtAuthIssuerEvents.
  */
 
 namespace Drupal\jwt_auth_issuer\Controller;
 
-final class JWTAuthIssuerEvents {
+final class JwtAuthIssuerEvents {
 
   /**
    * Name of the event fired before a new JWT is encoded.

@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\jwt\Authentication\Provider\JWTAuthEvent.
+ * Contains \Drupal\jwt\Authentication\Provider\JwtAuthEvent.
  */
 
 namespace Drupal\jwt\Authentication\Provider;
@@ -11,7 +11,7 @@ use Drupal\user\Entity\User;
 use Drupal\user\UserInterface;
 use Symfony\Component\EventDispatcher\Event;
 
-class JWTAuthEvent extends Event {
+class JwtAuthEvent extends Event {
   /**
    * Variable holding the user authenticated by the token in the payload.
    *
@@ -20,11 +20,11 @@ class JWTAuthEvent extends Event {
   protected $user;
 
   /**
-   * Variable which holds a decoded JWT payload.
+   * The JsonWebToken.
    *
-   * @var object
+   * @var \Drupal\jwt\JsonWebToken\JsonWebTokenInterface
    */
-  protected $payload;
+  protected $jwt;
 
   /**
    * Variable tracking whether a token has been marked invalid.
@@ -41,13 +41,13 @@ class JWTAuthEvent extends Event {
   protected $invalidReason;
 
   /**
-   * Constructs a JWTAuthEvent with a token payload.
+   * Constructs a JwtAuthEvent with a JsonWebToken.
    *
    * @param $token
    *  A decoded JWT.
    */
   public function __construct($token) {
-    $this->payload = $token;
+    $this->jwt = $token;
     $this->user = User::getAnonymousUser();
   }
 
@@ -56,8 +56,7 @@ class JWTAuthEvent extends Event {
    *
    * @param \Drupal\user\UserInterface $user
    *  A loaded user object.
-   */
-  public function setUser(UserInterface $user) {
+   */ public function setUser(UserInterface $user) {
     $this->user = $user;
   }
 
@@ -78,7 +77,7 @@ class JWTAuthEvent extends Event {
    *  A decoded JWT.
    */
   public function getToken() {
-    return $this->payload;
+    return $this->jwt;
   }
 
   /**

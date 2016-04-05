@@ -2,12 +2,12 @@
 
 /**
  * @file
- * Contains \Drupal\jwt\Authentication\Provider\JWTAuthEvents.
+ * Contains \Drupal\jwt\Authentication\Provider\JwtAuthEvents.
  */
 
 namespace Drupal\jwt\Authentication\Provider;
 
-final class JWTAuthEvents {
+final class JwtAuthEvents {
 
   /**
    * Name of the event fired before validating a JWT.
