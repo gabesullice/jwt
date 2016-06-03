@@ -20,7 +20,7 @@ class JwtAuthIssuerControllerTest extends WebTestBase {
    *
    * @var Firebase\JWT\JWT
    */
-  protected $jwt_firebase_php-jwt;
+  protected $jwt_firebase_php_jwt;
   /**
    * {@inheritdoc}
    */
