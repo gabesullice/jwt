@@ -3,7 +3,7 @@ services:
     class: Drupal\jwt\Authentication\Provider\JwtAuth
     arguments: [ '@entity_type.manager', '@jwt.validator', '@event_dispatcher' ]
     tags:
-      - { name: authentication_provider, provider_id: 'jwt_auth', priority: 100 }
+      - { name: authentication_provider, provider_id: 'jwt_auth', global: TRUE, priority: 100 }
   jwt.firebase.php-jwt:
     class: Firebase\JWT\JWT
   jwt.validator:
