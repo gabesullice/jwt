@@ -60,7 +60,7 @@ class JwtValidator implements JwtValidatorInterface {
 
     $key_id = $config_factory->get('jwt.config')->get('key_id');
     if (isset($key_id)) {
-      $key = $key_repo->getKey('jwt_key');
+      $key = $key_repo->getKey($key_id);
 
       if (!is_null($key)) {
         $secret = $key->getKeyValue();
