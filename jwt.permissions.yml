@@ -1,0 +1,4 @@
+administer jwt settings:
+  title: 'Administer JSON Web Token Settings'
+  description: 'Allows a user to configure accepted algorithms and keys for signing and verifying JWTs'
+  restrict access: TRUE

@@ -1,24 +1,14 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\jwt\Trancoder\JwtDecodeException.
- */
+namespace Drupal\jwt;
 
-namespace Drupal\jwt\Transcoder;
+use \Firebase\JWT\DomainException;
+use UnexpectedValueException;
+use \Firebase\JWT\SignatureInvalidException;
+use \Firebase\JWT\BeforeValidException;
+use \Firebase\JWT\ExpiredException;
 
-use Firebase\JWT\DomainException;
-use Firebase\JWT\UnexpectedValueException;
-use Firebase\JWT\SignatureInvalidException;
-use Firebase\JWT\BeforeValidException;
-use Firebase\JWT\ExpiredException;
-
-/**
- * Class JwtDecodeException.
- *
- * @package Drupal\jwt\Trancoder
- */
-class JwtDecodeException extends \Exception {
+class JwtEncoderException extends \Exception {
 
   const DOMAIN            = 1;
   const UNEXPECTED_VALUE  = 2;
@@ -30,7 +20,7 @@ class JwtDecodeException extends \Exception {
   /**
    * Contruct a new decode exception from a php-jwt exception.
    */
-  public static function newFromException(\Exception $e) {
+  public static function fromException(\Exception $e) {
     switch ($e) {
     case ($e instanceof DomainException):
       return new static($e->getMessage(), self::DOMAIN, $e);

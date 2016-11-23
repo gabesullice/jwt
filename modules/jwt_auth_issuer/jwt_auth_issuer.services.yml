@@ -1,7 +1,0 @@
-services:
-  jwt_auth_issuer.subscriber:
-    class: Drupal\jwt_auth_issuer\EventSubscriber\JwtAuthIssuerSubscriber
-    arguments: [ '@current_user' ]
-    tags:
-      - { name: event_subscriber }
-
