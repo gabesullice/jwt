@@ -27,7 +27,7 @@ class JwtAuthIssuerController extends ControllerBase {
   /**
    * The JWT transcoder service.
    *
-   * @var Drupal\jwt\Transcoder\JwtTranscoderInterface
+   * @var \Drupal\jwt\Transcoder\JwtTranscoderInterface
    */
   protected $transcoder;
 
@@ -54,7 +54,7 @@ class JwtAuthIssuerController extends ControllerBase {
 
   /**
    * {@inheritdoc}
-   * 
+   *
    * @param \Drupal\jwt\Transcoder\JwtTranscoderInterface
    *  The JWT transcoder service.
    * @param string $secret
@@ -97,13 +97,12 @@ class JwtAuthIssuerController extends ControllerBase {
    *   Return Hello string.
    */
   public function tokenResponse() {
-    $response = new \stdclass();
+    $response = new \stdClass();
 
     if($this->secret === NULL) {
       $response->error = "Please set a key in the JWT admin page.";
       return new JsonResponse($response, 500);
     }
-
     $response->token = $this->generateToken();
 
     return new JsonResponse($response);

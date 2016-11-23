@@ -22,7 +22,7 @@ class JsonWebToken implements JsonWebTokenInterface {
   protected $payload;
 
   public function __construct($jwt = null) {
-    $jwt = (is_null($jwt)) ? new \stdclass() : $jwt;
+    $jwt = (is_null($jwt)) ? new \stdClass() : $jwt;
     $this->payload = $jwt;
   }
 
@@ -55,7 +55,7 @@ class JsonWebToken implements JsonWebTokenInterface {
    */
   public function unsetClaim($claim) {
     $payload = $this->payload;
-    $this->_unsetClaim($payload, $claim, $value);
+    $this->_unsetClaim($payload, $claim);
     $this->payload = $payload;
   }
 
@@ -67,6 +67,7 @@ class JsonWebToken implements JsonWebTokenInterface {
    * @param mixed $claim
    *  Either a string or indexed array of strings representing the claim or
    *  nested claim to be set.
+   * @return mixed
    */
   protected function _getClaim(&$payload, $claim) {
     $current_claim = (is_array($claim)) ? array_shift($claim) : $claim;
@@ -99,7 +100,7 @@ class JsonWebToken implements JsonWebTokenInterface {
 
     if (is_array($claim) && count($claim) > 0) {
       if (!isset($payload->$current_claim)) {
-        $payload->$current_claim = new \stdclass();
+        $payload->$current_claim = new \stdClass();
       }
 
       $this->_setClaim($payload->$current_claim, $claim, $value);

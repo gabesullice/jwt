@@ -8,10 +8,9 @@ services:
     class: Firebase\JWT\JWT
   jwt.validator:
     class: Drupal\jwt\Validator\JwtValidator
-    arguments: [ '@request_stack', '@jwt.transcoder', '@key.repository', '@config.factory' ]
+    arguments: [ '@request_stack', '@jwt.transcoder' ]
     tags:
       - { name: persist }
   jwt.transcoder:
     class: Drupal\jwt\Transcoder\JwtTranscoder
-    arguments: [ '@jwt.firebase.php-jwt' ]
-
+    arguments: [ '@jwt.firebase.php-jwt', '@config.factory', '@key.repository' ]
