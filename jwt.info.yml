@@ -3,8 +3,6 @@ type: module
 description: Provides functionality for issuing, validating, and authenticating with JSON Web Tokens.
 core: 8.x
 package: Web services
-
 configure: jwt.jwt_config_form
-
 dependencies:
-  - key
+  - key:key
