@@ -1,7 +1,6 @@
-jwt.jwt_config_form:
-  title: 'JWT Authentication'
-  route_name: jwt.jwt_config_form
-  description: 'Configures the JWT Authentication module'
+jwt.settings:
+  title: 'JSON Web Tokens'
+  route_name: jwt.settings
+  description: 'Configure JSON Web Token settings'
   parent: system.admin_config_system
-  weight: 99
-
+  weight: 20

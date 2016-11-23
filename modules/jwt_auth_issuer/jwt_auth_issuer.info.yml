@@ -1,7 +1,0 @@
-name: JWT Authentication Issuer
-type: module
-description: Provides an endpoint which will issue JWTs.
-core: 8.x
-package: Web services
-dependencies:
-  - jwt
