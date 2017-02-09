@@ -9,11 +9,8 @@ namespace Drupal\jwt_auth_consumer\EventSubscriber;
 
 use Drupal\jwt\Authentication\Provider\JwtAuthEvent;
 use Drupal\jwt\Authentication\Provider\JwtAuthEvents;
-
 use Drupal\Core\Entity\EntityManagerInterface;
-
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Class JwtAuthConsumerSubscriber.
@@ -55,7 +52,7 @@ class JwtAuthConsumerSubscriber implements EventSubscriberInterface {
    * This validates the format of the JWT. It does NOT validate the uid is a
    * valid uid in the system.
    *
-   * @param \Drupal\jwt\JwtAuthEvent $event
+   * @param \Drupal\jwt\Authentication\Provider\JwtAuthEvent $event
    *  A JwtAuth event.
    */
   public function validate(JwtAuthEvent $event) {
@@ -68,7 +65,7 @@ class JwtAuthConsumerSubscriber implements EventSubscriberInterface {
   /**
    * Load and set a Drupal user to be authentication based on the JWT's uid.
    *
-   * @param \Drupal\jwt\JwtAuthEvent $event
+   * @param \Drupal\jwt\Authentication\Provider\JwtAuthEvent $event
    *  A JwtAuth event.
    */
   public function loadUser(JwtAuthEvent $event) {

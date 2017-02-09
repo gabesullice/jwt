@@ -25,8 +25,8 @@ class JwtAuthIssuerEvent extends JwtAuthEvent {
    *
    * @see \Drupal\jwt\JsonWebToken\JsonWebTokenInterface::unsetClaim()
    */
-  public function removeClaim($claim, $value) {
-    $this->jwt->removeClaim($claim);
+  public function removeClaim($claim) {
+    $this->jwt->unsetClaim($claim);
   }
 
 }

@@ -37,8 +37,6 @@ class ConfigForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $config = $this->config('jwt.config');
-
     $form['jwt_key'] = [
       '#type' => 'key_select',
       '#title' => $this->t('JWT Secret'),

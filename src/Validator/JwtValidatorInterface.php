@@ -17,7 +17,7 @@ interface JwtValidatorInterface {
   /**
    * Returns a JsonWebToken.
    *
-   * @return \Drupal\jwt\JsonWebTokenInterface
+   * @return \Drupal\jwt\JsonWebToken\JsonWebTokenInterface
    */
   public function getJwt();
 
@@ -25,7 +25,7 @@ interface JwtValidatorInterface {
    * Asserts the value of a claim.
    *
    * This asserts that a given claim has the given value. Nested claims can be
-   * accessed by passing an array of claims with which to traverse the JWT to 
+   * accessed by passing an array of claims with which to traverse the JWT to
    * the desired claim value.
    *
    * @param mixed $claim
