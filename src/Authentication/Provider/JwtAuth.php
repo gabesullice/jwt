@@ -61,15 +61,15 @@ class JwtAuth implements AuthenticationProviderInterface {
   /**
    * {@inheritdoc}
    */
-	public function applies(Request $request) {
+  public function applies(Request $request) {
     $auth = $request->headers->get('Authorization');
-		return preg_match('/^Bearer .+/', $auth);
-	}
+    return preg_match('/^Bearer .+/', $auth);
+  }
 
   /**
    * {@inheritdoc}
    */
-	public function authenticate(Request $request) {
+  public function authenticate(Request $request) {
     try {
       $jwt = $this->validator->getJwt();
     } catch (JwtInvalidException $e) {
@@ -81,7 +81,7 @@ class JwtAuth implements AuthenticationProviderInterface {
     }
 
     return $user;
-	}
+  }
 
   /**
    * Allow the system to interpret token and provide a user id.
@@ -96,5 +96,4 @@ class JwtAuth implements AuthenticationProviderInterface {
     $this->eventDispatcher->dispatch(JwtAuthEvents::VALID, $event);
     return $event->getUser();
   }
-
 }
