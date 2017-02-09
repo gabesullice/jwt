@@ -4,6 +4,11 @@ services:
     arguments: [ '@entity_type.manager', '@jwt.validator', '@event_dispatcher' ]
     tags:
       - { name: authentication_provider, provider_id: 'jwt_auth', global: TRUE, priority: 100 }
+  jwt.page_cache_request_policy.disallow_jwt_auth_requests:
+      class: Drupal\jwt\PageCache\DisallowJwtAuthRequests
+      public: false
+      tags:
+        - { name: page_cache_request_policy }
   jwt.firebase.php-jwt:
     class: Firebase\JWT\JWT
   jwt.validator:
