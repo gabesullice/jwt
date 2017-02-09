@@ -8,7 +8,6 @@
 namespace Drupal\jwt_auth_issuer\Tests;
 
 use Drupal\simpletest\WebTestBase;
-use Firebase\JWT\JWT;
 
 /**
  * Provides automated tests for the jwt_auth_issuer module.
@@ -18,7 +17,7 @@ class JwtAuthIssuerControllerTest extends WebTestBase {
   /**
    * Firebase\JWT\JWT definition.
    *
-   * @var Firebase\JWT\JWT
+   * @var \Firebase\JWT\JWT
    */
   protected $jwt_firebase_php_jwt;
   /**
@@ -44,7 +43,7 @@ class JwtAuthIssuerControllerTest extends WebTestBase {
    */
   public function testJwtAuthIssuerController() {
     // Check that the basic functions of module jwt_auth_issuer.
-    $this->assertEquals(TRUE, TRUE, 'Test Unit Generated via App Console.');
+    $this->assertEqual(TRUE, TRUE, 'Test Unit Generated via App Console.');
   }
 
 }

@@ -7,8 +7,6 @@
 
 namespace Drupal\jwt\Transcoder;
 
-use Firebase\JWT\DomainException;
-use Firebase\JWT\UnexpectedValueException;
 use Firebase\JWT\SignatureInvalidException;
 use Firebase\JWT\BeforeValidException;
 use Firebase\JWT\ExpiredException;
@@ -32,10 +30,6 @@ class JwtDecodeException extends \Exception {
    */
   public static function newFromException(\Exception $e) {
     switch ($e) {
-    case ($e instanceof DomainException):
-      return new static($e->getMessage(), self::DOMAIN, $e);
-    case ($e instanceof UnexpectedValueException):
-      return new static($e->getMessage(), self::UNEXPECTED_VALUE, $e);
     case ($e instanceof SignatureInvalidException):
       return new static($e->getMessage(), self::SIGNATURE_INVALID, $e);
     case ($e instanceof BeforeValidException):

@@ -51,7 +51,7 @@ class JwtAuthIssuerSubscriber implements EventSubscriberInterface {
    *
    * @param \Drupal\jwt_auth_issuer\Controller\JwtAuthIssuerEvent $event
    */
-  public function setStandardClaims($event) {
+  public function setStandardClaims(JwtAuthIssuerEvent $event) {
     $event->addClaim('iat', time());
     // @todo: make these more configurable.
     $event->addClaim('exp', strtotime('+1 hour'));
@@ -62,7 +62,7 @@ class JwtAuthIssuerSubscriber implements EventSubscriberInterface {
    *
    * @param \Drupal\jwt_auth_issuer\Controller\JwtAuthIssuerEvent $event
    */
-  public function setDrupalClaims($event) {
+  public function setDrupalClaims(JwtAuthIssuerEvent $event) {
     $event->addClaim(
       array(
         0 => 'drupal',

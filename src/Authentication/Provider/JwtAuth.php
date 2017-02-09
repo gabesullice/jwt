@@ -8,20 +8,12 @@
 namespace Drupal\jwt\Authentication\Provider;
 
 use Drupal\jwt\JsonWebToken\JsonWebTokenInterface;
-
 use Drupal\jwt\Validator\JwtInvalidException;
 use Drupal\jwt\Validator\JwtValidatorInterface;
-
-use Drupal\jwt\Authentication\Provider\JwtAuthEvent;
-use Drupal\jwt\Authentication\Provider\JwtAuthEvents;
-
 use Drupal\Core\Authentication\AuthenticationProviderInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
@@ -39,7 +31,7 @@ class JwtAuth implements AuthenticationProviderInterface {
   /**
    * The JWT Validator service.
    *
-   * @var \Drupal\jwt\JwtValidatorInterface
+   * @var \Drupal\jwt\Validator\JwtValidatorInterface
    */
   protected $validator;
 
@@ -79,15 +71,13 @@ class JwtAuth implements AuthenticationProviderInterface {
    */
 	public function authenticate(Request $request) {
     try {
-      $jwt = $this->validator->getJwt($request);
+      $jwt = $this->validator->getJwt();
     } catch (JwtInvalidException $e) {
       throw new AccessDeniedHttpException($e->getMessage(), $e);
-      return null;
     }
 
     if (!$user = $this->getUser($jwt)) {
       throw new AccessDeniedHttpException('Unable to load user from provided JWT.');
-      return null;
     }
 
     return $user;

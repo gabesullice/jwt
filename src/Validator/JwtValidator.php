@@ -7,13 +7,9 @@
 
 namespace Drupal\jwt\Validator;
 
+use Drupal\jwt\JsonWebToken\JsonWebTokenInterface;
 use Drupal\jwt\Transcoder\JwtTranscoderInterface;
 use Drupal\jwt\Transcoder\JwtDecodeException;
-
-use Drupal\key\KeyRepositoryInterface;
-
-use Drupal\Core\Config\ConfigFactoryInterface;
-
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -39,13 +35,6 @@ class JwtValidator implements JwtValidatorInterface {
   protected $jwtTranscoder;
 
   /**
-   * The key manager.
-   *
-   * @var \Drupal\key\KeyRepositoryInterface
-   */
-  protected $keyRepo;
-
-  /**
    * The current JsonWebToken.
    */
   protected $jwt;
@@ -53,20 +42,9 @@ class JwtValidator implements JwtValidatorInterface {
   /**
    * Constructor.
    */
-  public function __construct(RequestStack $request_stack, JwtTranscoderInterface $jwt_transcoder, KeyRepositoryInterface $key_repo, ConfigFactoryInterface $config_factory) {
+  public function __construct(RequestStack $request_stack, JwtTranscoderInterface $jwt_transcoder) {
     $this->requestStack = $request_stack;
     $this->jwtTranscoder = $jwt_transcoder;
-    $this->keyRepo = $key_repo;
-
-    $key_id = $config_factory->get('jwt.config')->get('key_id');
-    if (isset($key_id)) {
-      $key = $key_repo->getKey($key_id);
-
-      if (!is_null($key)) {
-        $secret = $key->getKeyValue();
-        $this->jwtTranscoder->setSecret($secret);
-      }
-    }
   }
 
   /**
@@ -102,6 +80,7 @@ class JwtValidator implements JwtValidatorInterface {
    *
    * @return mixed
    *  JsonWebToken if on request, false if not.
+   * @throws JwtInvalidException
    */
   protected function getJwtFromRequest(Request $request) {
     $auth_header = $request->headers->get('Authorization');
@@ -114,7 +93,6 @@ class JwtValidator implements JwtValidatorInterface {
     }
     catch (JwtDecodeException $e) {
       throw new JwtInvalidException($e->getMessage(), JwtInvalidException::DECODE_ERROR, $e);
-      return null;
     }
 
     return $jwt;

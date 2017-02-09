@@ -22,12 +22,13 @@ interface JsonWebTokenInterface {
   public function getPayload();
 
   /**
-   * Add a claim to the JWT payload.
+   * Retrieve a claim from the JWT payload.
    *
    * @param mixed $claim
    *  Either a string or indexed array of strings (if nested) representing the
    *  claim to retrieve. If an indexed array is passed, it will be used to
    *  traverse the JWT where the 0th element is the topmost claim.
+   * @returns mixed The contents of the claim.
    */
   public function getClaim($claim);
 
@@ -51,6 +52,6 @@ interface JsonWebTokenInterface {
    *
    * @See Drupal\jwt\JsonWebTokenInterface::getClaim().
    */
-  public function unsetClaim($claim); 
+  public function unsetClaim($claim);
 
 }

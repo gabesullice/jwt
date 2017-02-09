@@ -7,15 +7,11 @@
 
 namespace Drupal\jwt\Transcoder;
 
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\jwt\JsonWebToken\JsonWebToken;
 use Drupal\jwt\JsonWebToken\JsonWebTokenInterface;
-
+use Drupal\key\KeyRepositoryInterface;
 use Firebase\JWT\JWT;
-use Firebase\JWT\DomainException;
-use Firebase\JWT\UnexpectedValueException;
-use Firebase\JWT\SignatureInvalidException;
-use Firebase\JWT\BeforeValidException;
-use Firebase\JWT\ExpiredException;
 
 /**
  * Class JwtTranscoder.
@@ -44,8 +40,18 @@ class JwtTranscoder implements JwtTranscoderInterface {
   /**
    * Contructs a new JwtTranscoder.
    */
-  public function __construct(JWT $php_jwt) {
+  public function __construct(JWT $php_jwt, ConfigFactoryInterface $configFactory, KeyRepositoryInterface $key_repo) {
     $this->transcoder = $php_jwt;
+
+    $key_id = $configFactory->get('jwt.config')->get('key_id');
+    if (isset($key_id)) {
+      $key = $key_repo->getKey($key_id);
+
+      if (!is_null($key)) {
+        $secret = $key->getKeyValue();
+        $this->setSecret($secret);
+      }
+    }
   }
 
   public function setSecret($secret) {
@@ -53,14 +59,13 @@ class JwtTranscoder implements JwtTranscoderInterface {
   }
 
   /**
-   * Gets a validated JsonWebToken from an encoded JWT.
+   * @inheritdoc
    */
   public function decode($jwt) {
     try {
       $token = $this->transcoder->decode($jwt, $this->secret, $this->algorithms);
     } catch (\Exception $e) {
       throw JwtDecodeException::newFromException($e);
-      return null;
     }
     return new JsonWebToken($token);
   }
@@ -68,7 +73,7 @@ class JwtTranscoder implements JwtTranscoderInterface {
   /**
    * Encodes a JsonWebToken.
    */
-  public function encode(JsonWebTokenInterface $jwt, $options = array()) {
+  public function encode(JsonWebTokenInterface $jwt, $options = []) {
     $options = $this->getOptions($options);
     $encoded = $this->transcoder->encode($jwt->getPayload(), $options['key'], $options['alg']);
     return $encoded;

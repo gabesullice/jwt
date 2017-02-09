@@ -71,10 +71,9 @@ class JwtAuthEvent extends Event {
   }
 
   /**
-   * Returns the JWT payload being validated.
+   * Returns the JWT.
    *
-   * @return object $token
-   *  A decoded JWT.
+   * @return \Drupal\jwt\JsonWebToken\JsonWebTokenInterface
    */
   public function getToken() {
     return $this->jwt;
