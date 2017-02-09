@@ -46,19 +46,30 @@ class JwtAuthIssuerController extends ControllerBase {
   protected $eventDispatcher;
 
   /**
+   * The secret to be used for the JWT.
+   *
+   * @var string
+   */
+  protected $secret;
+
+  /**
    * {@inheritdoc}
    * 
    * @param \Drupal\jwt\Transcoder\JwtTranscoderInterface
    *  The JWT transcoder service.
+   * @param string $secret
+   *   The secret to be used for the JWT.
    * @param \Drupal\key\KeyRepositoryInterface $keyRepo
    *   The key module repository service.
    * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $event_dispatcher
    *   The event dispatcher service.
    */
-  public function __construct(JwtTranscoderInterface $transcoder, KeyRepositoryInterface $key_repo, EventDispatcherInterface $event_dispatcher) {
+  public function __construct(JwtTranscoderInterface $transcoder, $secret, KeyRepositoryInterface $key_repo, EventDispatcherInterface $event_dispatcher) {
     $this->transcoder = $transcoder;
     $this->keyRepo = $key_repo;
     $this->eventDispatcher = $event_dispatcher;
+    $this->secret = $secret;
+    $this->transcoder->setSecret($this->secret);
   }
 
   /**
@@ -67,12 +78,13 @@ class JwtAuthIssuerController extends ControllerBase {
   public static function create(ContainerInterface $container) {
     $transcoder = $container->get('jwt.transcoder');
     $key_repo = $container->get('key.repository');
-
-    $secret = $key_repo->getKey('jwt_key')->getKeyValue();
-    $transcoder->setSecret($secret);
+    $key_name = $container->get('config.factory')->get('jwt.config')->get('key_id');
+    $key = $key_repo->getKey($key_name);
+    $secret = $key ? $key->getKeyValue() : NULL;
 
     return new static(
       $transcoder,
+      $secret,
       $key_repo,
       $container->get('event_dispatcher')
     );
@@ -86,7 +98,14 @@ class JwtAuthIssuerController extends ControllerBase {
    */
   public function tokenResponse() {
     $response = new \stdclass();
+
+    if($this->secret === NULL) {
+      $response->error = "Please set a key in the JWT admin page.";
+      return new JsonResponse($response, 500);
+    }
+
     $response->token = $this->generateToken();
+
     return new JsonResponse($response);
   }
 
