@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains Drupal\jwt\Form\ConfigForm.
- */
-
 namespace Drupal\jwt\Form;
 
 use Drupal\Core\Form\ConfigFormBase;

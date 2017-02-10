@@ -1,14 +1,14 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\jwt_auth_issuer\Controller\JwtAuthIssuerEvent.
- */
-
 namespace Drupal\jwt_auth_issuer\Controller;
 
 use Drupal\jwt\Authentication\Provider\JwtAuthEvent;
 
+/**
+ * Class JwtAuthIssuerEvent.
+ *
+ * @package Drupal\jwt_auth_issuer\Controller
+ */
 class JwtAuthIssuerEvent extends JwtAuthEvent {
 
   /**

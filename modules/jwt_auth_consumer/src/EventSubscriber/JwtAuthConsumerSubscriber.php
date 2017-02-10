@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\jwt_auth_consumer\JwtAuthConsumerSubscriber.
- */
-
 namespace Drupal\jwt_auth_consumer\EventSubscriber;
 
 use Drupal\jwt\Authentication\Provider\JwtAuthEvent;
@@ -39,7 +34,7 @@ class JwtAuthConsumerSubscriber implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  static function getSubscribedEvents() {
+  public static function getSubscribedEvents() {
     $events[JwtAuthEvents::VALIDATE][] = array('validate');
     $events[JwtAuthEvents::VALID][] = array('loadUser');
 
@@ -53,7 +48,7 @@ class JwtAuthConsumerSubscriber implements EventSubscriberInterface {
    * valid uid in the system.
    *
    * @param \Drupal\jwt\Authentication\Provider\JwtAuthEvent $event
-   *  A JwtAuth event.
+   *   A JwtAuth event.
    */
   public function validate(JwtAuthEvent $event) {
     $token = $event->getToken();
@@ -66,7 +61,7 @@ class JwtAuthConsumerSubscriber implements EventSubscriberInterface {
    * Load and set a Drupal user to be authentication based on the JWT's uid.
    *
    * @param \Drupal\jwt\Authentication\Provider\JwtAuthEvent $event
-   *  A JwtAuth event.
+   *   A JwtAuth event.
    */
   public function loadUser(JwtAuthEvent $event) {
     $token = $event->getToken();

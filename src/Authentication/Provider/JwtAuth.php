@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\jwt\Authentication\Provider\JwtAuth.
- */
-
 namespace Drupal\jwt\Authentication\Provider;
 
 use Drupal\jwt\JsonWebToken\JsonWebTokenInterface;
@@ -47,7 +42,7 @@ class JwtAuth implements AuthenticationProviderInterface {
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The user authentication service.
-   * @param \Drupal\jwt\JwtValidatorInterface
+   * @param \Drupal\jwt\Validator\JwtValidatorInterface $validator
    *   The jwt validator service.
    * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $event_dispatcher
    *   The event dispatcher service.
@@ -72,7 +67,8 @@ class JwtAuth implements AuthenticationProviderInterface {
   public function authenticate(Request $request) {
     try {
       $jwt = $this->validator->getJwt();
-    } catch (JwtInvalidException $e) {
+    }
+    catch (JwtInvalidException $e) {
       throw new AccessDeniedHttpException($e->getMessage(), $e);
     }
 
@@ -87,13 +83,15 @@ class JwtAuth implements AuthenticationProviderInterface {
    * Allow the system to interpret token and provide a user id.
    *
    * @param \Drupal\jwt\JsonWebToken\JsonWebTokenInterface $jwt
+   *   The token to get the user from.
    *
-   * @return mixed $uid
-   *  A loaded user object.
+   * @return mixed
+   *   A loaded user object.
    */
   private function getUser(JsonWebTokenInterface $jwt) {
     $event = new JwtAuthEvent($jwt);
     $this->eventDispatcher->dispatch(JwtAuthEvents::VALID, $event);
     return $event->getUser();
   }
+
 }

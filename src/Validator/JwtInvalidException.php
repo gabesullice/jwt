@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\jwt\Validator\JwtInvalidException.
- */
-
 namespace Drupal\jwt\Validator;
 
 /**

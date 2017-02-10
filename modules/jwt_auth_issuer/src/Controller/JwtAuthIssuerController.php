@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\jwt_auth_issuer\Controller\JwtAuthIssuerController.
- */
-
 namespace Drupal\jwt_auth_issuer\Controller;
 
 use Drupal\jwt\JsonWebToken\JsonWebToken;
@@ -55,11 +50,11 @@ class JwtAuthIssuerController extends ControllerBase {
   /**
    * {@inheritdoc}
    *
-   * @param \Drupal\jwt\Transcoder\JwtTranscoderInterface
-   *  The JWT transcoder service.
+   * @param \Drupal\jwt\Transcoder\JwtTranscoderInterface $transcoder
+   *   The JWT transcoder service.
    * @param string $secret
    *   The secret to be used for the JWT.
-   * @param \Drupal\key\KeyRepositoryInterface $keyRepo
+   * @param \Drupal\key\KeyRepositoryInterface $key_repo
    *   The key module repository service.
    * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $event_dispatcher
    *   The event dispatcher service.
@@ -99,7 +94,7 @@ class JwtAuthIssuerController extends ControllerBase {
   public function tokenResponse() {
     $response = new \stdClass();
 
-    if($this->secret === NULL) {
+    if ($this->secret === NULL) {
       $response->error = "Please set a key in the JWT admin page.";
       return new JsonResponse($response, 500);
     }

@@ -1,12 +1,12 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\jwt_auth_issuer\Controller\JwtAuthIssuerEvents.
- */
-
 namespace Drupal\jwt_auth_issuer\Controller;
 
+/**
+ * Class JwtAuthIssuerEvents.
+ *
+ * @package Drupal\jwt_auth_issuer\Controller
+ */
 final class JwtAuthIssuerEvents {
 
   /**
