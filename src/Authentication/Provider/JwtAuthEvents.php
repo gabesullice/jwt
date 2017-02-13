@@ -1,19 +1,19 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\jwt\Authentication\Provider\JwtAuthEvents.
- */
-
 namespace Drupal\jwt\Authentication\Provider;
 
+/**
+ * Class JwtAuthEvents.
+ *
+ * @package Drupal\jwt\Authentication\Provider
+ */
 final class JwtAuthEvents {
 
   /**
    * Name of the event fired before validating a JWT.
    *
    * This event allows modules to provide custom validations for a JWT.
-   * Subscibers should assume every token is invalid. Therefore, this event
+   * Subscribers should assume every token is invalid. Therefore, this event
    * should NOT perform any actions that depend on a valid JWT. This allows
    * other subscribers to invalidate the JWT. Actions that depend on a valid
    * token should use the VALID event.

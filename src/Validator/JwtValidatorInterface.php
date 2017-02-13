@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\jwt\Validator\JwtValidatorInterface.
- */
-
 namespace Drupal\jwt\Validator;
 
 /**
@@ -18,6 +13,7 @@ interface JwtValidatorInterface {
    * Returns a JsonWebToken.
    *
    * @return \Drupal\jwt\JsonWebToken\JsonWebTokenInterface
+   *   The JWT.
    */
   public function getJwt();
 
@@ -29,13 +25,12 @@ interface JwtValidatorInterface {
    * the desired claim value.
    *
    * @param mixed $claim
-   *  The claim to retrieve.
-   *
+   *   The claim to retrieve.
    * @param mixed $grant
-   *  The claim grant to validate.
+   *   The claim grant to validate.
    *
    * @return bool
-   *  Whether the JWT's claim contains the given grant.
+   *   Whether the JWT's claim contains the given grant.
    */
   public function assertClaim($claim, $grant);
 

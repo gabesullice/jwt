@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\jwt_auth_issuer\JwtAuthIssuerSubscriber.
- */
-
 namespace Drupal\jwt_auth_issuer\EventSubscriber;
 
 use Drupal\Core\Session\AccountInterface;
@@ -31,7 +26,7 @@ class JwtAuthIssuerSubscriber implements EventSubscriberInterface {
    * Constructor.
    *
    * @param \Drupal\Core\Session\AccountInterface $user
-   *  The current user.
+   *   The current user.
    */
   public function __construct(AccountInterface $user) {
     $this->currentUser = $user;
@@ -40,7 +35,7 @@ class JwtAuthIssuerSubscriber implements EventSubscriberInterface {
   /**
    * {@inheritdoc}
    */
-  static function getSubscribedEvents() {
+  public static function getSubscribedEvents() {
     $events[JwtAuthIssuerEvents::GENERATE][] = array('setStandardClaims', 100);
     $events[JwtAuthIssuerEvents::GENERATE][] = array('setDrupalClaims', 99);
     return $events;
@@ -50,6 +45,7 @@ class JwtAuthIssuerSubscriber implements EventSubscriberInterface {
    * Sets the standard claims set for a JWT.
    *
    * @param \Drupal\jwt_auth_issuer\Controller\JwtAuthIssuerEvent $event
+   *   The event.
    */
   public function setStandardClaims(JwtAuthIssuerEvent $event) {
     $event->addClaim('iat', time());
@@ -61,12 +57,13 @@ class JwtAuthIssuerSubscriber implements EventSubscriberInterface {
    * Sets claims for a Drupal consumer on the JWT.
    *
    * @param \Drupal\jwt_auth_issuer\Controller\JwtAuthIssuerEvent $event
+   *   The event.
    */
   public function setDrupalClaims(JwtAuthIssuerEvent $event) {
     $event->addClaim(
       array(
         0 => 'drupal',
-        1 => 'uid'
+        1 => 'uid',
       ),
       $this->currentUser->id()
     );

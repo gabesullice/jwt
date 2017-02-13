@@ -1,11 +1,7 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\jwt\Transcoder\JwtTranscoderInterface.
- */
-
 namespace Drupal\jwt\Transcoder;
+
 use Drupal\jwt\JsonWebToken\JsonWebTokenInterface;
 
 /**
@@ -18,18 +14,33 @@ interface JwtTranscoderInterface {
   /**
    * Gets a validated JsonWebToken from an encoded JWT.
    *
-   * @returns \Drupal\jwt\JsonWebToken\JsonWebTokenInterface
+   * @param string $jwt
+   *   The encoded JWT.
+   *
+   * @return \Drupal\jwt\JsonWebToken\JsonWebTokenInterface
+   *   Validated JWT.
    */
   public function decode($jwt);
 
   /**
    * Encodes a JsonWebToken.
    *
-   * @param $jwt \Drupal\jwt\JsonWebToken\JsonWebTokenInterface A JWT
-   * @param $options array Options, optional.
+   * @param \Drupal\jwt\JsonWebToken\JsonWebTokenInterface $jwt
+   *   A JWT.
+   * @param array $options
+   *   Options, optional.
    *
-   * @returns string The encoded JWT.
+   * @return string
+   *   The encoded JWT.
    */
-  public function encode(JsonWebTokenInterface $jwt, $options = []);
+  public function encode(JsonWebTokenInterface $jwt, array $options = []);
+
+  /**
+   * Setter for the JWT secret.
+   *
+   * @param string $secret
+   *   The secret for the JWT.
+   */
+  public function setSecret($secret);
 
 }

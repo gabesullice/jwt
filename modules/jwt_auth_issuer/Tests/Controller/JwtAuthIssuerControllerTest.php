@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\jwt_auth_issuer\Tests\JwtAuthIssuerController.
- */
-
 namespace Drupal\jwt_auth_issuer\Tests;
 
 use Drupal\simpletest\WebTestBase;
@@ -14,12 +9,6 @@ use Drupal\simpletest\WebTestBase;
  */
 class JwtAuthIssuerControllerTest extends WebTestBase {
 
-  /**
-   * Firebase\JWT\JWT definition.
-   *
-   * @var \Firebase\JWT\JWT
-   */
-  protected $jwt_firebase_php_jwt;
   /**
    * {@inheritdoc}
    */

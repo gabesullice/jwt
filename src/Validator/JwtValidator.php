@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\jwt\Validator\JwtValidator.
- */
-
 namespace Drupal\jwt\Validator;
 
 use Drupal\jwt\JsonWebToken\JsonWebTokenInterface;
@@ -36,11 +31,18 @@ class JwtValidator implements JwtValidatorInterface {
 
   /**
    * The current JsonWebToken.
+   *
+   * @var string
    */
   protected $jwt;
 
   /**
    * Constructor.
+   *
+   * @param RequestStack $request_stack
+   *   The request stack.
+   * @param JwtTranscoderInterface $jwt_transcoder
+   *   The JWT transcoder.
    */
   public function __construct(RequestStack $request_stack, JwtTranscoderInterface $jwt_transcoder) {
     $this->requestStack = $request_stack;
@@ -78,8 +80,12 @@ class JwtValidator implements JwtValidatorInterface {
   /**
    * Gets a JsonWebToken from the current request.
    *
+   * @param Request $request
+   *   The request.
+   *
    * @return mixed
-   *  JsonWebToken if on request, false if not.
+   *   JsonWebToken if on request, false if not.
+   *
    * @throws JwtInvalidException
    */
   protected function getJwtFromRequest(Request $request) {

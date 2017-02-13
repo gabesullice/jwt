@@ -19,9 +19,11 @@ class DisallowJwtAuthRequests implements RequestPolicyInterface {
    */
   public function check(Request $request) {
     $auth = $request->headers->get('Authorization');
-    if(preg_match('/^Bearer .+/', $auth)) {
+    if (preg_match('/^Bearer .+/', $auth)) {
       return self::DENY;
     }
+
+    return NULL;
   }
 
 }
