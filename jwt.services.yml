@@ -1,7 +1,7 @@
 services:
   jwt.authentication.jwt:
     class: Drupal\jwt\Authentication\Provider\JwtAuth
-    arguments: [ '@entity_type.manager', '@jwt.validator', '@event_dispatcher' ]
+    arguments: [ '@entity_type.manager', '@jwt.transcoder', '@event_dispatcher' ]
     tags:
       - { name: authentication_provider, provider_id: 'jwt_auth', global: TRUE, priority: 100 }
   jwt.page_cache_request_policy.disallow_jwt_auth_requests:
@@ -11,11 +11,6 @@ services:
         - { name: page_cache_request_policy }
   jwt.firebase.php-jwt:
     class: Firebase\JWT\JWT
-  jwt.validator:
-    class: Drupal\jwt\Validator\JwtValidator
-    arguments: [ '@request_stack', '@jwt.transcoder' ]
-    tags:
-      - { name: persist }
   jwt.transcoder:
     class: Drupal\jwt\Transcoder\JwtTranscoder
     arguments: [ '@jwt.firebase.php-jwt', '@config.factory', '@key.repository' ]

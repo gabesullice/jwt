@@ -2,8 +2,9 @@
 
 namespace Drupal\jwt_auth_consumer\EventSubscriber;
 
-use Drupal\jwt\Authentication\Provider\JwtAuthEvent;
-use Drupal\jwt\Authentication\Provider\JwtAuthEvents;
+use Drupal\jwt\Authentication\Event\JwtAuthValidateEvent;
+use Drupal\jwt\Authentication\Event\JwtAuthValidEvent;
+use Drupal\jwt\Authentication\Event\JwtAuthEvents;
 use Drupal\Core\Entity\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -44,34 +45,35 @@ class JwtAuthConsumerSubscriber implements EventSubscriberInterface {
   /**
    * Validates that a uid is present in the JWT.
    *
-   * This validates the format of the JWT. It does NOT validate the uid is a
+   * This validates the format of the JWT and validate the uid is a
    * valid uid in the system.
    *
-   * @param \Drupal\jwt\Authentication\Provider\JwtAuthEvent $event
+   * @param \Drupal\jwt\Authentication\Event\JwtAuthValidateEvent $event
    *   A JwtAuth event.
    */
-  public function validate(JwtAuthEvent $event) {
+  public function validate(JwtAuthValidateEvent $event) {
     $token = $event->getToken();
-    if (!isset($token->drupal->uid)) {
+    $uid = $token->getClaim(['drupal', 'uid']);
+    if ($uid === NULL) {
       $event->invalidate("No Drupal uid was provided in the JWT payload.");
+    }
+    $user = $this->entityManager->getStorage('user')->load($uid);
+    if ($user === NULL) {
+      $event->invalidate("No UID exists.");
     }
   }
 
   /**
    * Load and set a Drupal user to be authentication based on the JWT's uid.
    *
-   * @param \Drupal\jwt\Authentication\Provider\JwtAuthEvent $event
+   * @param \Drupal\jwt\Authentication\Event\JwtAuthValidEvent $event
    *   A JwtAuth event.
    */
-  public function loadUser(JwtAuthEvent $event) {
+  public function loadUser(JwtAuthValidEvent $event) {
     $token = $event->getToken();
     $user_storage = $this->entityManager->getStorage('user');
-    $uid = $token->getClaim(array('drupal', 'uid'));
+    $uid = $token->getClaim(['drupal', 'uid']);
     $user = $user_storage->load($uid);
-    if (!$user) {
-      // @todo: log notice recording that no user by this uid was found.
-      return;
-    }
     $event->setUser($user);
   }
 

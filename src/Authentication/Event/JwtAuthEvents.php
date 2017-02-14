@@ -1,14 +1,13 @@
 <?php
 
-namespace Drupal\jwt\Authentication\Provider;
+namespace Drupal\jwt\Authentication\Event;
 
 /**
  * Class JwtAuthEvents.
  *
- * @package Drupal\jwt\Authentication\Provider
+ * @package Drupal\jwt\Authentication\Event
  */
 final class JwtAuthEvents {
-
   /**
    * Name of the event fired before validating a JWT.
    *
@@ -40,4 +39,18 @@ final class JwtAuthEvents {
    */
   const VALID = 'jwt.valid';
 
+  /**
+   * Name of the event fired before a new JWT is encoded.
+   *
+   * This event fires prior to a new JWT is encoded. The event contains the
+   * payload of the JWT. Subscribers should use this event to add any claims to
+   * the JWT before it is given to the client. Bear in mind, JWTs are not
+   * encrypted, just signed. Subscribers should not store sensitive information
+   * in a JWT.
+   *
+   * @Event
+   *
+   * @var string
+   */
+  const GENERATE = 'jwt.generate';
 }
