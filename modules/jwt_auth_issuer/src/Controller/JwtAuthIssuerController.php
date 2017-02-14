@@ -2,14 +2,9 @@
 
 namespace Drupal\jwt_auth_issuer\Controller;
 
-use Drupal\jwt\JsonWebToken\JsonWebToken;
-use Drupal\jwt\Transcoder\JwtTranscoderInterface;
-
+use Drupal\jwt\Authentication\Provider\JwtAuth;
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\key\KeyRepositoryInterface;
-
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
@@ -20,56 +15,28 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 class JwtAuthIssuerController extends ControllerBase {
 
   /**
-   * The JWT transcoder service.
+   * The JWT Auth Service.
    *
-   * @var \Drupal\jwt\Transcoder\JwtTranscoderInterface
+   * @var \Drupal\jwt\Authentication\Provider\JwtAuth
    */
-  protected $transcoder;
-
-  /**
-   * The key repository service.
-   *
-   * @var \Drupal\key\KeyRepositoryInterface
-   */
-  protected $keyRepo;
-
-  /**
-   * The event dispatcher.
-   *
-   * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
-   */
-  protected $eventDispatcher;
-
-  /**
-   * The secret to be used for the JWT.
-   *
-   * @var string
-   */
-  protected $secret;
+  private $auth;
 
   /**
    * {@inheritdoc}
    *
-   * @param \Drupal\jwt\Transcoder\JwtTranscoderInterface $transcoder
-   *   The JWT transcoder service.
-   * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $event_dispatcher
-   *   The event dispatcher service.
+   * @param \Drupal\jwt\Authentication\Provider\JwtAuth $auth
+   *   The JWT auth service.
    */
-  public function __construct(JwtTranscoderInterface $transcoder, EventDispatcherInterface $event_dispatcher) {
-    $this->transcoder = $transcoder;
-    $this->eventDispatcher = $event_dispatcher;
+  public function __construct(JwtAuth $auth) {
+    $this->auth = $auth;
   }
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    $transcoder = $container->get('jwt.transcoder');
-
-    return new static(
-      $transcoder,
-      $container->get('event_dispatcher')
-    );
+    $auth = $container->get('jwt.authentication.jwt');
+    return new static($auth);
   }
 
   /**
@@ -80,8 +47,7 @@ class JwtAuthIssuerController extends ControllerBase {
    */
   public function tokenResponse() {
     $response = new \stdClass();
-
-    $token = $this->generateToken();
+    $token = $this->auth->generateToken();
     if ($token === FALSE) {
       $response->error = "Error. Please set a key in the JWT admin page.";
       return new JsonResponse($response, 500);
@@ -89,18 +55,6 @@ class JwtAuthIssuerController extends ControllerBase {
 
     $response->token = $token;
     return new JsonResponse($response);
-  }
-
-  /**
-   * Generates a new JWT.
-   */
-  protected function generateToken() {
-    $token = new JsonWebToken();
-    $event = new JwtAuthIssuerEvent($token);
-    $this->eventDispatcher->dispatch(JwtAuthIssuerEvents::GENERATE, $event);
-    $jwt = $event->getToken();
-
-    return $this->transcoder->encode($jwt);
   }
 
 }

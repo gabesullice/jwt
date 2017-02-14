@@ -1,15 +1,13 @@
 <?php
 
-namespace Drupal\jwt_auth_issuer\Controller;
-
-use Drupal\jwt\Authentication\Provider\JwtAuthEvent;
+namespace Drupal\jwt\Authentication\Event;
 
 /**
- * Class JwtAuthIssuerEvent.
+ * Class JwtAuthGenerateEvent.
  *
- * @package Drupal\jwt_auth_issuer\Controller
+ * @package Drupal\jwt\Authentication\Event
  */
-class JwtAuthIssuerEvent extends JwtAuthEvent {
+class JwtAuthGenerateEvent extends JwtAuthBaseEvent {
 
   /**
    * Adds a claim to a JsonWebToken.
