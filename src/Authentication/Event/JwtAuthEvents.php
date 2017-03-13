@@ -53,4 +53,5 @@ final class JwtAuthEvents {
    * @var string
    */
   const GENERATE = 'jwt.generate';
+
 }

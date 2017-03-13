@@ -1,8 +1,13 @@
 <?php
 
 /**
- *  * Implements hook_requirements().
- *   */
+ * @file
+ * Install, update, and uninstall functions for the jwt module.
+ */
+
+/**
+ * Implements hook_requirements().
+ */
 function jwt_requirements($phase) {
   $requirements = [];
   if ($phase == 'install') {
