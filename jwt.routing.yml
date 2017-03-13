@@ -8,4 +8,3 @@ jwt.jwt_config_form:
     _permission: 'access administration pages'
   options:
     _admin_route: TRUE
-
