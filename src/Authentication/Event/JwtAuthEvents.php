@@ -26,10 +26,10 @@ final class JwtAuthEvents {
   /**
    * Name of the event fired after a JWT has been validated.
    *
-   * This event fires after a token has been validated. Resonders to this event
-   * should respond with a valid Drupal user ID. Subscibers may use this event
+   * This event fires after a token has been validated. Responders to this event
+   * should respond with a valid Drupal user ID. Subscribers may use this event
    * to create new users based on the JWT payload if necessary. Note that this
-   * event fires AFTER the token has already been validated. Subscibers should
+   * event fires AFTER the token has already been validated. Subscribers should
    * not attempt to prevent authentication during this event. They should
    * instead use the VALIDATE event.
    *
