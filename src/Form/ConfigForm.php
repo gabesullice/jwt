@@ -16,7 +16,18 @@ use Drupal\jwt\Transcoder\JwtTranscoder;
  */
 class ConfigForm extends ConfigFormBase {
 
+  /**
+   * The JWT transcoder.
+   *
+   * @var \Drupal\jwt\Transcoder\JwtTranscoder
+   */
   protected $transcoder;
+
+  /**
+   * The key repository.
+   *
+   * @var \Drupal\key\KeyRepositoryInterface
+   */
   protected $keyRepo;
 
   /**
