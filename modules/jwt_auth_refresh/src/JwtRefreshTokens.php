@@ -4,6 +4,8 @@ namespace Drupal\jwt_auth_refresh;
 
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\jwt\JsonWebToken\JsonWebToken;
+use Drupal\jwt\Transcoder\JwtTranscoderInterface;
 use Drupal\jwt_auth_refresh\Entity\JwtRefreshToken;
 
 class JwtRefreshTokens implements JwtRefreshTokensInterface {
@@ -16,28 +18,33 @@ class JwtRefreshTokens implements JwtRefreshTokensInterface {
   protected $entityTypeManager;
 
   /**
+   * Transcoder.
+   *
+   * @var \Drupal\jwt\Transcoder\JwtTranscoderInterface
+   */
+  protected $transcoder;
+
+  /**
    * @inheritDoc
    */
-  public function __construct(EntityTypeManagerInterface $entityTypeManager) {
+  public function __construct(EntityTypeManagerInterface $entityTypeManager, JwtTranscoderInterface $jwtTranscoder) {
     $this->entityTypeManager = $entityTypeManager;
+    $this->transcoder = $jwtTranscoder;
   }
 
   /**
    * {@inheritdoc}
    */
   public function retrieveForUser(AccountInterface $account) {
-    $existing = $this->entityTypeManager->getStorage('jwt_refresh_token')->getQuery()
-      ->condition('uid.target_id', $account->id())
-      ->condition('status', 1)
-      ->execute();
-    if ($existing) {
-      $token = JwtRefreshToken::load(reset($existing));
-    }
-    else {
-      $token = JwtRefreshToken::create(['uid' => $account->id()]);
-      $token->save();
-    }
-    return $token;
+    $token = JwtRefreshToken::create([
+      'uid' => $account->id(),
+    ]);
+    $token->save();
+    $jwt = new JsonWebToken((object) [
+      'jti' => $token->get('jti')->getString(),
+      'exp' => $token->get('expires')->getString(),
+    ]);
+    return $this->transcoder->encode($jwt);
   }
 
 }

@@ -19,8 +19,6 @@ use Firebase\JWT\JWT;
  *   base_table = "jwt_refresh_token",
  *   entity_keys = {
  *     "id" = "id",
- *     "uuid" = "uuid",
- *     "status" = "status",
  *     "uid" = "uid",
  *   }
  * )
@@ -28,18 +26,25 @@ use Firebase\JWT\JWT;
 class JwtRefreshToken extends ContentEntityBase implements JwtRefreshTokenInterface {
 
   /**
-   * {@inheritdoc}
+   * @inheritDoc
    */
-  public function getToken() {
-    return $this->get('token')->getString();
+  public function isExpired() {
+    return $this->get('expires')->getString() < REQUEST_TIME;
   }
+
+  /**
+   * Default TTL.
+   *
+   * One week.
+   */
+  const TTL = 60 * 60 * 24 * 7;
 
   /**
    * @inheritDoc
    */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
-    $fields['token'] = BaseFieldDefinition::create('string')
+    $fields['jti'] = BaseFieldDefinition::create('string')
       ->setLabel(t('Refresh Token'))
       ->setDescription(t('The refresh token'))
       ->setRequired(TRUE)
@@ -51,14 +56,11 @@ class JwtRefreshToken extends ContentEntityBase implements JwtRefreshTokenInterf
       ->setSetting('target_type', 'user')
       ->setDefaultValueCallback('Drupal\node\Entity\Node::getCurrentUserId')
       ->setDisplayConfigurable('form', TRUE);
-    $fields['status'] = BaseFieldDefinition::create('boolean')
-      ->setLabel(t('Active'))
-      ->setDescription(t('Whether the token is active.'))
-      ->setDefaultValue(TRUE);
-    $fields['created'] = BaseFieldDefinition::create('created')
-      ->setLabel(t('Created'))
-      ->setDefaultValueCallback('time')
-      ->setDescription(t('The time that the token was created.'));
+    $fields['expires'] = BaseFieldDefinition::create('timestamp')
+      ->setCardinality(1)
+      ->setLabel(t('Expires'))
+      ->setDefaultValueCallback('Drupal\jwt_auth_refresh\Entity\JwtRefreshToken::expires')
+      ->setDescription(t('The time the token expires.'));
     return $fields;
   }
 
@@ -68,8 +70,17 @@ class JwtRefreshToken extends ContentEntityBase implements JwtRefreshTokenInterf
    * @return string[]
    */
   public static function tokenGenerate() {
-    $default = [JWT::urlsafeB64Encode((new Random())->string(64, TRUE))];
+    $default = [(new Random())->string(8, TRUE)];
     return $default;
+  }
+
+  /**
+   * Generate default value for the expires time.
+   *
+   * @return string[]
+   */
+  public static function expires() {
+    return [REQUEST_TIME + self::TTL];
   }
 
   /**

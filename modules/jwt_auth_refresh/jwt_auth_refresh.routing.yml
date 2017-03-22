@@ -5,4 +5,4 @@ jwt_auth_refresh.refresh:
     _title: 'JWT Auth Refresh'
   methods: [ 'POST' ]
   requirements:
-    _access: 'TRUE'
+    _custom_access: '\Drupal\jwt_auth_refresh\Controller\RefreshController::access'

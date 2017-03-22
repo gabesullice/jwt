@@ -61,7 +61,7 @@ class JwtAuthIssuerController extends ControllerBase {
     }
     $response->token = $token;
     if ($this->moduleHandler()->moduleExists('jwt_auth_refresh')) {
-      $response->refresh_token = $this->refreshTokens->retrieveForUser($this->currentUser())->getToken();
+      $response->refresh_token = $this->refreshTokens->retrieveForUser($this->currentUser());
     }
     return new JsonResponse($response);
   }

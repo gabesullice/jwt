@@ -19,6 +19,8 @@ interface JwtTranscoderInterface {
    *
    * @return \Drupal\jwt\JsonWebToken\JsonWebTokenInterface
    *   Validated JWT.
+   *
+   * @throws \Drupal\jwt\Transcoder\JwtDecodeException
    */
   public function decode($jwt);
 

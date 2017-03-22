@@ -8,10 +8,10 @@ use Drupal\user\EntityOwnerInterface;
 interface JwtRefreshTokenInterface extends ContentEntityInterface, EntityOwnerInterface {
 
   /**
-   * Getter for the token property.
+   * Determine if the token is expired.
    *
-   * @return string The refresh token.
+   * @return bool
    */
-  public function getToken();
+  public function isExpired();
 
 }
