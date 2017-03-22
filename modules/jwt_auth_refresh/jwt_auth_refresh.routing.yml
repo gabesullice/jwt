@@ -1,0 +1,8 @@
+jwt_auth_refresh.refresh:
+  path: '/jwt/refresh'
+  defaults:
+    _controller: '\Drupal\jwt_auth_refresh\Controller\RefreshController::refresh'
+    _title: 'JWT Auth Refresh'
+  methods: [ 'POST' ]
+  requirements:
+    _access: 'TRUE'

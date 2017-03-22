@@ -1,5 +1,5 @@
 jwt_auth_issuer.jwt_auth_issuer_controller_generateToken:
-  path: 'jwt/token'
+  path: '/jwt/token'
   defaults:
     _controller: '\Drupal\jwt_auth_issuer\Controller\JwtAuthIssuerController::tokenResponse'
     _title: 'JWT Auth Issuer'
