@@ -1,0 +1,7 @@
+name: JWT Authentication Token Reissuance
+type: module
+description: Provides an API for token reissuance
+core: 8.x
+package: Web services
+dependencies:
+  - jwt:jwt_auth_issuer

@@ -1,0 +1,4 @@
+services:
+  jwt_auth_refresh.tokens:
+    class: '\Drupal\jwt_auth_refresh\JwtRefreshTokens'
+    arguments: [ '@entity_type.manager', '@jwt.transcoder' ]

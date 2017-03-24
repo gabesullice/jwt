@@ -1,0 +1,14 @@
+<?php
+
+/**
+ * Implements hook_cron().
+ */
+function jwt_auth_refresh_cron() {
+  // Delete expired tokens.
+  $storage = \Drupal::entityTypeManager()->getStorage('jwt_refresh_token');
+  $expired = $storage
+    ->getQuery()
+    ->condition('expires', REQUEST_TIME, '<')
+    ->execute();
+  $storage->delete($storage->loadMultiple($expired));
+}
