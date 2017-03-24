@@ -41,7 +41,7 @@ class JwtRefreshTokens implements JwtRefreshTokensInterface {
     ]);
     $token->save();
     $jwt = new JsonWebToken((object) [
-      'jti' => $token->get('jti')->getString(),
+      'jti' => $token->get('uuid')->getString(),
       'exp' => $token->get('expires')->getString(),
     ]);
     return $this->transcoder->encode($jwt);

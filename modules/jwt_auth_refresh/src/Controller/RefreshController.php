@@ -113,7 +113,7 @@ class RefreshController extends JwtAuthIssuerController {
       return NULL;
     }
     $tokens = $this->entityTypeManager()->getStorage('jwt_refresh_token')->loadByProperties([
-      'jti' => $jti,
+      'uuid' => $jti,
     ]);
     if ($tokens) {
       return reset($tokens);

@@ -2,7 +2,6 @@
 
 namespace Drupal\jwt_auth_refresh\Entity;
 
-use Drupal\Component\Utility\Random;
 use Drupal\Core\Annotation\Translation;
 use Drupal\Core\Entity\Annotation\ContentEntityType;
 use Drupal\Core\Entity\ContentEntityBase;
@@ -10,7 +9,6 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\jwt_auth_refresh\JwtRefreshTokenInterface;
 use Drupal\user\UserInterface;
-use Firebase\JWT\JWT;
 
 /**
  * @ContentEntityType(
@@ -20,6 +18,7 @@ use Firebase\JWT\JWT;
  *   entity_keys = {
  *     "id" = "id",
  *     "uid" = "uid",
+ *     "uuid" = "uuid",
  *   }
  * )
  */
@@ -44,12 +43,6 @@ class JwtRefreshToken extends ContentEntityBase implements JwtRefreshTokenInterf
    */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
-    $fields['jti'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Refresh Token'))
-      ->setDescription(t('The refresh token'))
-      ->setRequired(TRUE)
-      ->setDefaultValueCallback('Drupal\jwt_auth_refresh\Entity\JwtRefreshToken::tokenGenerate')
-      ->setCardinality(1);
     $fields['uid'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('User'))
       ->setDescription(t('The associated user.'))
@@ -62,16 +55,6 @@ class JwtRefreshToken extends ContentEntityBase implements JwtRefreshTokenInterf
       ->setDefaultValueCallback('Drupal\jwt_auth_refresh\Entity\JwtRefreshToken::expires')
       ->setDescription(t('The time the token expires.'));
     return $fields;
-  }
-
-  /**
-   * Generate a default value for the token.
-   *
-   * @return string[]
-   */
-  public static function tokenGenerate() {
-    $default = [(new Random())->string(8, TRUE)];
-    return $default;
   }
 
   /**
