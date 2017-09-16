@@ -39,6 +39,9 @@ class JwtDecodeException extends \Exception {
 
       case ($e instanceof ExpiredException):
         return new static($e->getMessage(), self::EXPIRED, $e);
+        
+      case ($e instanceof \DomainException):
+        return new static($e->getMessage(), self::DOMAIN, $e);  
 
       case ($e instanceof \Exception):
         return new static('Internal Server Error', self::UNKNOWN, $e);
