@@ -1,0 +1,10 @@
+jwt.config:
+  type: config_object
+  label: 'JWT Configuration'
+  mapping:
+    algortihm:
+      type: string 
+      label: 'Hashing algorithm to use'
+    key_id:
+      type: string 
+      label: 'Private key to use'
